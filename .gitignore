@@ -60,3 +60,5 @@ pom.xml.next
 release.properties
 .DS_Store
 .DS_Store?
+**/single-project
+**/single-project/**
