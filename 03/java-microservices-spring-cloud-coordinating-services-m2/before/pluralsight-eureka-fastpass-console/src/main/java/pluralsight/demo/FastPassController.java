@@ -1,5 +1,6 @@
 package pluralsight.demo;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -22,6 +23,7 @@ public class FastPassController {
 	@Autowired
 	private RestTemplate restTemplate;
 
+	@HystrixCommand(fallbackMethod = "getFastPassCustomerDetailsBackup")
 	@RequestMapping(path="/customerdetails", params={"fastpassid"})
 	public String getFastPassCustomerDetails(@RequestParam String fastpassid, Model m) {
 		
@@ -32,4 +34,11 @@ public class FastPassController {
 		return "console";
 	}
 
+	public String getFastPassCustomerDetailsBackup(@RequestParam String fastpassid, Model m) {
+		System.out.println("Failover Method Called !!!");
+		FastPassCustomer c = new FastPassCustomer();
+		c.setFastPassId(fastpassid);
+		m.addAttribute("customer", c);
+		return "console";
+	}
 }
