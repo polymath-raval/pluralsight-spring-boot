@@ -20,6 +20,16 @@ spring:
     port: 5672
     username: guest
     password: guest
+  cloud:
+      stream:
+        default:
+          contentType: application/json
+        bindings:
+          fastpassTollChannel:
+            destination: fastpasstoll
+            producer:
+              partitionKeyExpression: payload.stationid
+              partitionCount: 3
 
 PLURALSIGHT-FASTPASS-INSTANCE:
   ribbon:
