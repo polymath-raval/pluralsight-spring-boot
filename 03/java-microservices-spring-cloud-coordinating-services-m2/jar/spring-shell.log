@@ -1,0 +1,41 @@
+// dataflow 1.2.0.RELEASE log opened at 2017-12-21 21:20:49
+help
+app list
+exit
+// dataflow 1.2.0.RELEASE log closed at 2017-12-21 21:21:19
+// dataflow 1.2.0.RELEASE log opened at 2017-12-22 14:38:58
+exit
+// dataflow 1.2.0.RELEASE log closed at 2017-12-22 14:39:08
+// dataflow 1.2.0.RELEASE log opened at 2017-12-23 21:10:16
+app import --uri http://bit.ly/Celsius-GA-stream-applications-rabbit-maven
+app list
+app info sink:file
+// [failed] stream create --definition "http --port 8086 | file --directory=/Users/nikunj/Documents/temp/dataflow/dataflow-out --suffix=txt --name=output" --name pluralsight-hello
+stream create --definition "http --port=8086 | file --directory=/Users/nikunj/Documents/temp/dataflow/dataflow-out --suffix=txt --name=output" --name pluralsight-hello
+stream list
+stream deploy pluralsight-hello
+// [failed] stream create --definition "file --directory=/Users/nikunj/Documents/temp/dataflow/dataflow-in --mode=lines | transform --expression=payload + '| processed=true' | output file --directory=/Users/nikunj/Documents/temp/dataflow/dataflow-out --suffix=txt --name=output2" --name filestream1
+// [failed] stream create --definition "file --directory=/Users/nikunj/Documents/temp/dataflow/dataflow-in --mode=lines | transform --expression=payload+'| processed=true' | output file --directory=/Users/nikunj/Documents/temp/dataflow/dataflow-out --suffix=txt --name=output2" --name filestream1
+stream create --definition "file --directory=/Users/nikunj/Documents/temp/dataflow/dataflow-in --mode=lines | transform --expression=payload+'| processed=true' | output: file --directory=/Users/nikunj/Documents/temp/dataflow/dataflow-out --suffix=txt --name=output2" --name filestream1
+stream list
+stream deploy filestream1
+app import --uri http://bit.ly/Clark-GA-task-applications-maven
+app list
+task create demotask --definition "timestamp --format=\MM-yy\""
+task list
+task launch demotask
+task execution list 
+task destroy --name demotask
+task list
+task execution list
+task create demotask --definition "timestamp --format=\"MM-yy\""
+task list
+task launch demotask
+task execution list
+app list
+app register --name fraudcheck --type processor --uri maven://pluralsight.demo:pluralsight-dataflow-scoring-stream-app:jar:0.0.1-SNAPSHOT
+clear
+app list
+app info processor:fraudcheck
+exi
+// dataflow 1.2.0.RELEASE log closed at 2017-12-25 07:38:16
